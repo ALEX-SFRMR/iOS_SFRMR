@@ -1,0 +1,101 @@
+{
+  "name": "Exercise",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity - null for default exercises"
+    },
+    "muscle_group": {
+      "type": "string",
+      "description": "Primary muscle group"
+    },
+    "exercise_name": {
+      "type": "string",
+      "description": "Name of the exercise"
+    },
+    "youtube_url": {
+      "type": "string",
+      "description": "Legacy YouTube URL \u2014 no longer displayed"
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a default exercise available to all users"
+    },
+    "description": {
+      "type": "string",
+      "description": "Exercise description or notes"
+    },
+    "display_order": {
+      "type": "integer",
+      "default": 0,
+      "description": "Order to display exercise within its muscle group"
+    },
+    "gif_url": {
+      "type": "string",
+      "description": "Legacy animated or single-image exercise demo URL"
+    },
+    "start_image_url": {
+      "type": "string",
+      "description": "SFRMR-branded demonstration image showing the correct starting position"
+    },
+    "end_image_url": {
+      "type": "string",
+      "description": "SFRMR-branded demonstration image showing the correct ending position"
+    },
+    "demo_generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the branded start/end demonstration pair was generated"
+    },
+    "instructions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ordered list of step-by-step instructions"
+    },
+    "target_muscles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Primary target muscles"
+    },
+    "secondary_muscles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Secondary muscles worked"
+    },
+    "equipment": {
+      "type": "string",
+      "description": "Primary equipment used (e.g., barbell, dumbbell, body weight)"
+    },
+    "external_id": {
+      "type": "string",
+      "description": "ID of this exercise in the upstream demo API (idempotency key for seeding)"
+    },
+    "is_main_lift": {
+      "type": "boolean",
+      "default": false,
+      "description": "Main lift (full-screen weight PRs)"
+    },
+    "is_assisted": {
+      "type": "boolean",
+      "default": false,
+      "description": "Assisted exercise: less weight = progress"
+    },
+    "load_per_hand": {
+      "type": "boolean",
+      "default": false,
+      "description": "Weight is logged per hand (dumbbells)"
+    }
+  },
+  "required": [
+    "muscle_group",
+    "exercise_name"
+  ]
+}

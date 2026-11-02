@@ -1,0 +1,155 @@
+{
+  "name": "TrainingWeek",
+  "type": "object",
+  "description": "One per user per week. Counted workouts vs the standard/target in effect that week.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "week_start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "week_end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "standard": {
+      "type": "integer"
+    },
+    "target": {
+      "type": "integer"
+    },
+    "counted_workouts": {
+      "type": "integer",
+      "default": 0
+    },
+    "counted_workout_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "counted_dates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "training_minutes": {
+      "type": "integer",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "in_progress",
+        "full",
+        "standard_met",
+        "below_standard",
+        "paused",
+        "free_week"
+      ]
+    },
+    "pause_reason": {
+      "type": "string",
+      "enum": [
+        "sick",
+        "travel",
+        "life",
+        "other"
+      ]
+    },
+    "paused_retroactively": {
+      "type": "boolean"
+    },
+    "closed": {
+      "type": "boolean",
+      "default": false
+    },
+    "recap_viewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reset_viewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "biggest_win": {
+      "type": "object",
+      "properties": {
+        "exercise_name": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        }
+      }
+    },
+    "is_deload": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description"
+    }
+  },
+  "required": [
+    "user_id"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

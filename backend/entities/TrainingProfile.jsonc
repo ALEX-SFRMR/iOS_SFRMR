@@ -1,0 +1,270 @@
+{
+  "name": "TrainingProfile",
+  "type": "object",
+  "description": "Durable, accumulating coaching record for a single user. Separate from individual saved plans (Mesocycle/Workout). Each planning cycle reads from this and writes back to it so the app builds a real client record over time instead of re-asking the same questions.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity \u2014 one TrainingProfile per user"
+    },
+    "schema_version": {
+      "type": "integer",
+      "default": 1,
+      "description": "Profile schema version, for future migrations"
+    },
+    "training_background": {
+      "type": "string",
+      "description": "Narrative of the person's training history \u2014 years lifting, sports, past programs, what has and hasn't worked"
+    },
+    "current_training": {
+      "type": "string",
+      "description": "What the person is currently doing in the gym right now (or 'detrained / coming back')"
+    },
+    "experience_level": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced",
+        "elite"
+      ],
+      "description": "Coach's running assessment of training experience"
+    },
+    "available_days_per_week": {
+      "type": "integer",
+      "description": "Days per week the person SAYS they can train"
+    },
+    "realistic_days_per_week": {
+      "type": "integer",
+      "description": "Days per week the coach judged actually sustainable \u2014 may be lower than available_days_per_week when the person is over-committing"
+    },
+    "schedule_notes": {
+      "type": "string",
+      "description": "Real-life schedule constraints \u2014 work, family, travel, what time of day they train, how consistent they realistically are"
+    },
+    "session_length_minutes": {
+      "type": "integer",
+      "description": "Realistic time available per session"
+    },
+    "equipment_access": {
+      "type": "string",
+      "enum": [
+        "full_gym",
+        "barbell_only",
+        "dumbbells_only",
+        "minimal",
+        "other"
+      ],
+      "description": "Primary equipment environment"
+    },
+    "environment_notes": {
+      "type": "string",
+      "description": "Free-text on environment \u2014 home vs commercial gym, crowding, missing equipment, travel setups"
+    },
+    "preferred_training_style": {
+      "type": "string",
+      "description": "Archetype key the person leans toward (e.g. general_fitness, powerbuilder, bodybuilder, powerlifter, athlete, endurance)"
+    },
+    "injuries": {
+      "type": "array",
+      "description": "Injuries / physical limitations tracked over time so trends are visible across cycles",
+      "items": {
+        "type": "object",
+        "properties": {
+          "area": {
+            "type": "string",
+            "description": "Body area, e.g. 'left knee', 'lower back'"
+          },
+          "description": {
+            "type": "string",
+            "description": "What's going on and any aggravating movements"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "improving",
+              "resolved",
+              "recurring"
+            ],
+            "description": "Current trend for this issue"
+          },
+          "first_noted": {
+            "type": "string",
+            "format": "date"
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date"
+          },
+          "notes": {
+            "type": "string",
+            "description": "How it has trended, accommodations made"
+          }
+        }
+      }
+    },
+    "goals": {
+      "type": "array",
+      "description": "Goals and how they evolve over time",
+      "items": {
+        "type": "object",
+        "properties": {
+          "goal": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "primary",
+              "secondary"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "achieved",
+              "paused",
+              "abandoned"
+            ]
+          },
+          "noted_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Context on the goal and how it has shifted"
+          }
+        }
+      }
+    },
+    "strength_levels": {
+      "type": "array",
+      "description": "Current/estimated strength levels, updated over time",
+      "items": {
+        "type": "object",
+        "properties": {
+          "lift": {
+            "type": "string",
+            "description": "Lift name, ideally matching an exercise_name in the library"
+          },
+          "weight_kg": {
+            "type": "number"
+          },
+          "reps": {
+            "type": "integer"
+          },
+          "estimated_1rm_kg": {
+            "type": "number"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "self_reported",
+              "estimated",
+              "tested"
+            ]
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "preferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Things the person likes / responds well to \u2014 exercises, styles, training structures, what motivates them"
+    },
+    "dislikes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Exercises, styles, or structures the person dislikes or wants to avoid"
+    },
+    "plan_history": {
+      "type": "array",
+      "description": "Running record of past plans with brief outcomes/notes",
+      "items": {
+        "type": "object",
+        "properties": {
+          "mesocycle_id": {
+            "type": "string",
+            "description": "Reference to the Mesocycle that was created"
+          },
+          "name": {
+            "type": "string"
+          },
+          "training_style": {
+            "type": "string"
+          },
+          "days_per_week": {
+            "type": "integer"
+          },
+          "duration_weeks": {
+            "type": "integer"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string",
+            "description": "planned / active / completed / abandoned"
+          },
+          "outcome_notes": {
+            "type": "string",
+            "description": "Brief note on how the block went"
+          }
+        }
+      }
+    },
+    "coaching_summaries": {
+      "type": "array",
+      "description": "Chronological, high-signal coaching notes \u2014 what a good coach jots down after a session. Accumulate into a narrative of the client. NOT raw transcripts.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cycle_label": {
+            "type": "string",
+            "description": "Short label for the cycle this note belongs to"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Concise coaching note: how they seemed, motivations, worries, offhand preferences, how they talk about training and life"
+          },
+          "plan_generated": {
+            "type": "boolean",
+            "description": "Whether a plan was successfully generated in this session"
+          }
+        }
+      }
+    },
+    "last_conversation_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional free-text description of this training profile"
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "name": "ExerciseProgress",
+  "type": "object",
+  "description": "One per user per exercise+variation. Baselines, bests, trend. Rebuilt from completed workouts.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "exercise_key": {
+      "type": "string",
+      "description": "lowercase exercise_name + '|' + lowercase variation"
+    },
+    "exercise_name": {
+      "type": "string"
+    },
+    "variation": {
+      "type": "string"
+    },
+    "is_main_lift": {
+      "type": "boolean"
+    },
+    "is_assisted": {
+      "type": "boolean"
+    },
+    "is_bodyweight": {
+      "type": "boolean"
+    },
+    "exposures": {
+      "type": "integer",
+      "default": 0
+    },
+    "calibration_status": {
+      "type": "string",
+      "enum": [
+        "calibrating",
+        "established"
+      ],
+      "default": "calibrating"
+    },
+    "established_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "last_session": {
+      "type": "object",
+      "properties": {
+        "workout_id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "sets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "weight_kg": {
+                "type": "number"
+              },
+              "reps": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "best_weight_kg": {
+      "type": "number"
+    },
+    "best_weight_reps": {
+      "type": "integer"
+    },
+    "best_weight_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "best_e1rm_kg": {
+      "type": "number"
+    },
+    "best_e1rm_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "best_reps_at_weight": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "weight_kg": {
+            "type": "number"
+          },
+          "reps": {
+            "type": "integer"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "best_by_bucket": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bucket": {
+            "type": "string"
+          },
+          "e1rm_kg": {
+            "type": "number"
+          },
+          "weight_kg": {
+            "type": "number"
+          },
+          "reps": {
+            "type": "integer"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "since_return_best_e1rm_kg": {
+      "type": "number"
+    },
+    "session_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "top_weight_kg": {
+            "type": "number"
+          },
+          "top_reps": {
+            "type": "integer"
+          },
+          "e1rm_kg": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "trend": {
+      "type": "string",
+      "enum": [
+        "not_enough_data",
+        "progressing",
+        "stable",
+        "stalled",
+        "declining"
+      ],
+      "default": "not_enough_data"
+    },
+    "trend_updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description"
+    }
+  },
+  "required": [
+    "user_id"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

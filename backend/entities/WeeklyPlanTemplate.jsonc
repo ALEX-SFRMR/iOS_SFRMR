@@ -1,0 +1,64 @@
+{
+  "name": "WeeklyPlanTemplate",
+  "type": "object",
+  "properties": {
+    "mesocycle_id": {
+      "type": "string",
+      "description": "Reference to Mesocycle entity"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "week_number": {
+      "type": "integer",
+      "description": "Which week this template is for"
+    },
+    "workout_schedule": {
+      "type": "array",
+      "description": "Array of 7 days, each with assigned workouts",
+      "items": {
+        "type": "object",
+        "properties": {
+          "day_of_week": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 6,
+            "description": "0=Sunday, 1=Monday, etc."
+          },
+          "day_name": {
+            "type": "string"
+          },
+          "workouts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "workout_id": {
+                  "type": "string"
+                },
+                "workout_name": {
+                  "type": "string"
+                },
+                "order": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this weekly plan template"
+    }
+  },
+  "required": [
+    "mesocycle_id",
+    "user_id",
+    "week_number",
+    "workout_schedule"
+  ]
+}

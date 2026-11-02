@@ -1,0 +1,247 @@
+{
+  "name": "Workout",
+  "type": "object",
+  "properties": {
+    "mesocycle_id": {
+      "type": "string",
+      "description": "Reference to Mesocycle entity"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "name": {
+      "type": "string",
+      "description": "Workout name"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "week_number": {
+      "type": "integer"
+    },
+    "workout_order": {
+      "type": "integer",
+      "description": "Order within the day (1, 2, 3 for multiple sessions)"
+    },
+    "recovery_status": {
+      "type": "object",
+      "description": "Recovery status for each muscle group (muscle_group: fully_recovered/just_recovered/still_sore)",
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "fully_recovered",
+          "just_recovered",
+          "still_sore"
+        ]
+      }
+    },
+    "exercises": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "exercise_name": {
+            "type": "string"
+          },
+          "muscle_group": {
+            "type": "string",
+            "description": "Muscle group this exercise belongs to (e.g. Chest, Back, Quads). Stored so the Weekly Builder grouping and copied/shared plans preserve the same muscle groups and exercises-per-muscle-group, independent of the live exercise library."
+          },
+          "section": {
+            "type": "string",
+            "enum": [
+              "warmup",
+              "cooldown"
+            ],
+            "description": "When set, this movement belongs to the guided warm-up (red) or cool-down (blue) block \u2014 a single timed follow-along entry with no working sets and no progression."
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "description": "Follow-along timer for warm-up/cool-down movements (static stretches ~10s, dynamic drills ~25-30s)."
+          },
+          "variation": {
+            "type": "string",
+            "description": "Optional grip (upper body) or stance (lower body) variation, e.g. 'Wide Grip', 'Sumo Stance'"
+          },
+          "is_bodyweight": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this exercise uses body weight"
+          },
+          "set_modifier": {
+            "type": "string",
+            "enum": [
+              "straight",
+              "myo_reps",
+              "rapid_sets",
+              "partials"
+            ],
+            "default": "straight",
+            "description": "Advanced set modifier for this exercise"
+          },
+          "sets_data": {
+            "type": "array",
+            "description": "Array of set data, one per set",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reps": {
+                  "type": "string"
+                },
+                "weight_kg": {
+                  "type": "number"
+                },
+                "completed": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "rir": {
+                  "type": "number",
+                  "description": "Reps in Reserve after completing the set"
+                },
+                "suggested_weight_increase": {
+                  "type": "number",
+                  "description": "AI suggested weight increase for progressive overload"
+                },
+                "suggested_rep_increase": {
+                  "type": "integer",
+                  "description": "AI suggested rep increase"
+                },
+                "completed_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "is_pr": {
+                  "type": "boolean"
+                },
+                "pr_kinds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "set_type": {
+                  "type": "string",
+                  "enum": [
+                    "working",
+                    "warmup"
+                  ],
+                  "default": "working"
+                },
+                "auto_filled": {
+                  "type": "boolean",
+                  "description": "Load/reps were prefilled from history; not yet touched by the user"
+                },
+                "user_set": {
+                  "type": "boolean",
+                  "description": "The user entered this set's values; prefill never overwrites it"
+                }
+              }
+            }
+          },
+          "rest_seconds": {
+            "type": "integer"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "hidden_in_quick": {
+            "type": "boolean",
+            "description": "Hidden (not deleted) for a quick session"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the first set was logged"
+    },
+    "completed_local_date": {
+      "type": "string",
+      "description": "yyyy-MM-dd in the user's timezone; the day this workout counts toward"
+    },
+    "completion_source": {
+      "type": "string",
+      "enum": [
+        "live",
+        "finish_prompt",
+        "backdated",
+        "legacy"
+      ]
+    },
+    "session_type": {
+      "type": "string",
+      "enum": [
+        "full",
+        "quick"
+      ],
+      "default": "full"
+    },
+    "counts_toward_week": {
+      "type": "boolean",
+      "description": "Counted toward the weekly standard/target (one per local day)"
+    },
+    "counted_week_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "skipped": {
+      "type": "boolean",
+      "default": false,
+      "description": "Skipped by the user; resolved in the queue but never counted"
+    },
+    "skipped_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "skip_reason": {
+      "type": "string",
+      "enum": [
+        "busy",
+        "beat_up",
+        "sick",
+        "traveling",
+        "not_today"
+      ]
+    },
+    "planned_working_sets": {
+      "type": "integer"
+    },
+    "completed_working_sets": {
+      "type": "integer"
+    },
+    "duration_minutes": {
+      "type": "integer"
+    },
+    "reentry_pct": {
+      "type": "number",
+      "description": "Re-entry load reduction applied to this workout (e.g. 10 for -10%)"
+    },
+    "queue_priority": {
+      "type": "integer",
+      "description": "Lower runs first within the queue (used when a skipped priority session moves up)"
+    }
+  },
+  "required": [
+    "user_id",
+    "name",
+    "scheduled_date"
+  ]
+}

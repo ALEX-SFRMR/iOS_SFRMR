@@ -1,0 +1,51 @@
+// SFRMR v2 — slim User fields (Base44 adds id, email, full_name, role, created_date).
+// Subscription truth is written ONLY by backend functions (RevenueCat webhook,
+// or by hand for comped / grandfathered Stripe members). The app never writes it.
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "subscription_status": {
+      "type": "string",
+      "enum": ["none", "trial", "active", "grace", "expired"],
+      "default": "none",
+      "description": "Current membership state. trial and active (and grace during an Apple billing retry) unlock the app."
+    },
+    "subscription_source": {
+      "type": "string",
+      "enum": ["apple", "stripe_legacy", "manual"],
+      "description": "Where the membership came from. stripe_legacy = an existing Stripe member honored until access_until; manual = comped by Alex."
+    },
+    "access_until": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When paid or trial access ends. For apple, the current period's expiration from RevenueCat."
+    },
+    "will_renew": {
+      "type": "boolean",
+      "description": "False once the member turns off auto-renew (access continues until access_until)."
+    },
+    "weight_unit": {
+      "type": "string",
+      "enum": ["lbs", "kg"],
+      "default": "lbs",
+      "description": "Display unit. All weights are stored in kg."
+    },
+    "birthday": {
+      "type": "string",
+      "format": "date",
+      "description": "Optional; used to derive age for calorie targets."
+    },
+    "sex": {
+      "type": "string",
+      "enum": ["male", "female"],
+      "description": "Optional; used for BMR."
+    },
+    "onboarded_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Set when the user finishes first-run setup."
+    }
+  },
+  "required": []
+}

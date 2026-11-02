@@ -1,0 +1,110 @@
+{
+  "name": "Meal",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "meal_type": {
+      "type": "string",
+      "description": "Meal number (e.g., Meal 1, Meal 2, etc.)"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of meal"
+    },
+    "time": {
+      "type": "string",
+      "description": "Time of day the meal was logged, in 24h HH:mm format (e.g. 08:30). Used for the calendar timeline."
+    },
+    "name": {
+      "type": "string",
+      "description": "Meal name or description"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "food_name": {
+            "type": "string"
+          },
+          "servings": {
+            "type": "number"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of food"
+          },
+          "unit": {
+            "type": "string",
+            "description": "Measurement unit (g, oz, serving, cup, etc.)"
+          },
+          "calories": {
+            "type": "number",
+            "description": "Calculated calories for this amount"
+          },
+          "protein_g": {
+            "type": "number",
+            "description": "Calculated protein for this amount"
+          },
+          "carbs_g": {
+            "type": "number",
+            "description": "Calculated carbs for this amount"
+          },
+          "fat_g": {
+            "type": "number",
+            "description": "Calculated fat for this amount"
+          },
+          "base_calories_per_100g": {
+            "type": "number",
+            "description": "Base calories per 100g for calculation"
+          },
+          "base_protein_per_100g": {
+            "type": "number",
+            "description": "Base protein per 100g for calculation"
+          },
+          "base_carbs_per_100g": {
+            "type": "number",
+            "description": "Base carbs per 100g for calculation"
+          },
+          "base_fat_per_100g": {
+            "type": "number",
+            "description": "Base fat per 100g for calculation"
+          }
+        }
+      }
+    },
+    "total_calories": {
+      "type": "number",
+      "description": "Total calories in meal"
+    },
+    "total_protein_g": {
+      "type": "number",
+      "description": "Total protein in grams"
+    },
+    "total_carbs_g": {
+      "type": "number",
+      "description": "Total carbs in grams"
+    },
+    "total_fat_g": {
+      "type": "number",
+      "description": "Total fat in grams"
+    },
+    "photo_url": {
+      "type": "string",
+      "description": "Photo of the meal"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "user_id",
+    "meal_type",
+    "date",
+    "name"
+  ]
+}

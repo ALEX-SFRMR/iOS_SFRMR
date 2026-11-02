@@ -1,0 +1,83 @@
+{
+  "name": "Mesocycle",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "name": {
+      "type": "string",
+      "description": "Mesocycle name (e.g., 'Cycle 3 - Hypertrophy 1')"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "hypertrophy",
+        "strength",
+        "endurance",
+        "deload",
+        "powerlifter",
+        "bodybuilder",
+        "powerbuilder",
+        "athlete",
+        "general_fitness"
+      ],
+      "description": "Type of training block. Includes the legacy block types (hypertrophy/strength/endurance/deload) plus the training-identity archetypes the plan generators write (powerlifter/bodybuilder/powerbuilder/athlete/general_fitness)."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "planned"
+      ],
+      "default": "planned"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "total_weeks": {
+      "type": "integer",
+      "description": "Total weeks in cycle"
+    },
+    "current_week": {
+      "type": "integer",
+      "default": 1,
+      "description": "Current week number"
+    },
+    "target_volume": {
+      "type": "number",
+      "description": "Target weekly volume in sets"
+    },
+    "volume_phase": {
+      "type": "string",
+      "enum": [
+        "cut",
+        "bulk",
+        "maintain"
+      ],
+      "description": "Nutrition phase this block's volume is periodized for. Drives across-block weekly-set behavior: cut/maintain hold the baseline; bulk ramps sets per muscle group toward low-MRV. Persisted so phase-aware edits (e.g. changing the plan from the current week forward) can resume the correct ramp."
+    },
+    "shareable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this program can be shared via link"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "user_id",
+    "name",
+    "type",
+    "start_date",
+    "total_weeks"
+  ]
+}

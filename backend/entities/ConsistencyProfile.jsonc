@@ -1,0 +1,298 @@
+{
+  "name": "ConsistencyProfile",
+  "type": "object",
+  "description": "One per user. Standard/target commitment, streak, lifetime totals, return state, reminder prefs. Source of truth: docs/SFRMR_RULES.md.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone, e.g. America/Chicago"
+    },
+    "week_start_day": {
+      "type": "integer",
+      "default": 1,
+      "minimum": 1,
+      "maximum": 7,
+      "description": "ISO weekday the week starts on (1 = Monday)"
+    },
+    "standard_per_week": {
+      "type": "integer",
+      "description": "The week you can hit on your worst week"
+    },
+    "target_per_week": {
+      "type": "integer",
+      "description": "What you plan on a normal week"
+    },
+    "target_source": {
+      "type": "string",
+      "enum": [
+        "program",
+        "user"
+      ]
+    },
+    "commitment_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "standard": {
+            "type": "integer"
+          },
+          "target": {
+            "type": "integer"
+          },
+          "effective_week_start": {
+            "type": "string",
+            "format": "date"
+          },
+          "changed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "setup_completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the user locked in their standard/target. Empty until they do."
+    },
+    "first_week_start": {
+      "type": "string",
+      "format": "date",
+      "description": "Week the streak model starts (the setup week is a free week)"
+    },
+    "existing_user_at_launch": {
+      "type": "boolean",
+      "default": false,
+      "description": "Had completed workouts when the progress system launched"
+    },
+    "current_streak_weeks": {
+      "type": "integer",
+      "default": 0
+    },
+    "longest_streak_weeks": {
+      "type": "integer",
+      "default": 0
+    },
+    "lifetime_workouts": {
+      "type": "integer",
+      "default": 0
+    },
+    "lifetime_weeks_trained": {
+      "type": "integer",
+      "default": 0
+    },
+    "last_counted_workout_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "return_state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "returning"
+      ],
+      "default": "active"
+    },
+    "returned_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "return_counted_weeks": {
+      "type": "integer",
+      "default": 0,
+      "description": "Counted weeks since returning (back to active after 2)"
+    },
+    "reentry": {
+      "type": "object",
+      "properties": {
+        "pct": {
+          "type": "number"
+        },
+        "weeks_off": {
+          "type": "number"
+        },
+        "applied_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reverted": {
+          "type": "boolean"
+        },
+        "ends_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "banner_shown": {
+          "type": "boolean"
+        },
+        "second_pct": {
+          "type": "number",
+          "description": "Reduction for the second week of a two-week ramp"
+        }
+      }
+    },
+    "pause": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string",
+          "enum": [
+            "sick",
+            "travel",
+            "life",
+            "other"
+          ]
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "standard_lower_suggested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "at_risk_dismissed_week": {
+      "type": "string",
+      "format": "date",
+      "description": "Week start where the at-risk card was dismissed"
+    },
+    "reminders": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "time": {
+          "type": "string",
+          "description": "HH:mm"
+        },
+        "days": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "ignored_count": {
+          "type": "integer",
+          "default": 0
+        },
+        "paused_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "offered_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "skip_dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "at_risk_nudge_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "last_app_open_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "humor_counter": {
+      "type": "integer",
+      "default": 0
+    },
+    "curse_last_session": {
+      "type": "string",
+      "description": "Workout id where the last curse was used"
+    },
+    "recent_copy_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "backfill_version": {
+      "type": "integer",
+      "default": 0
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description"
+    }
+  },
+  "required": [
+    "user_id"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "name": "TotalPlan",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "plan_name": {
+      "type": "string",
+      "description": "Name of the plan"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "goal_type": {
+      "type": "string",
+      "enum": [
+        "weight",
+        "body_fat"
+      ],
+      "description": "Whether goal is based on weight or body fat percentage"
+    },
+    "starting_weight_kg": {
+      "type": "number"
+    },
+    "starting_body_fat_percentage": {
+      "type": "number"
+    },
+    "starting_lean_body_mass_kg": {
+      "type": "number",
+      "description": "Lean body mass at plan start (weight - fat mass)"
+    },
+    "goal_weight_kg": {
+      "type": "number"
+    },
+    "goal_body_fat_percentage": {
+      "type": "number"
+    },
+    "starting_daily_steps": {
+      "type": "integer"
+    },
+    "starting_daily_calories": {
+      "type": "integer"
+    },
+    "macro_split": {
+      "type": "object",
+      "description": "Macro nutrient split percentages",
+      "properties": {
+        "protein_percent": {
+          "type": "integer",
+          "description": "Protein percentage of total calories"
+        },
+        "carbs_percent": {
+          "type": "integer",
+          "description": "Carbs percentage of total calories"
+        },
+        "fat_percent": {
+          "type": "integer",
+          "description": "Fat percentage of total calories"
+        }
+      }
+    },
+    "weekly_plan": {
+      "type": "array",
+      "description": "Week-by-week breakdown of the plan",
+      "items": {
+        "type": "object",
+        "properties": {
+          "week_number": {
+            "type": "integer"
+          },
+          "phase": {
+            "type": "string",
+            "description": "Phase label (e.g., CUT, DIET RESET, SHOW, SLOW GAIN)"
+          },
+          "daily_calories": {
+            "type": "integer"
+          },
+          "daily_steps": {
+            "type": "integer"
+          },
+          "expected_weight_kg": {
+            "type": "number"
+          },
+          "expected_body_fat_percentage": {
+            "type": "number"
+          },
+          "expected_lean_mass_kg": {
+            "type": "number",
+            "description": "Expected lean body mass in kg"
+          },
+          "bmr": {
+            "type": "number",
+            "description": "Basal Metabolic Rate for this week"
+          },
+          "calories_burned": {
+            "type": "number",
+            "description": "Calories burned from activity/steps"
+          },
+          "calorie_deficit": {
+            "type": "number",
+            "description": "Daily calorie deficit (calories out - calories in)"
+          },
+          "weight_change_kg": {
+            "type": "number",
+            "description": "Expected weight change this week in kg"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "paused"
+      ],
+      "default": "active"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "user_id",
+    "plan_name",
+    "start_date",
+    "end_date",
+    "goal_type",
+    "starting_weight_kg"
+  ]
+}

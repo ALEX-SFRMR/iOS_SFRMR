@@ -1,0 +1,138 @@
+{
+  "name": "PersonalRecord",
+  "type": "object",
+  "description": "A validated personal record set during a workout.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "exercise_key": {
+      "type": "string"
+    },
+    "exercise_name": {
+      "type": "string"
+    },
+    "variation": {
+      "type": "string"
+    },
+    "workout_id": {
+      "type": "string"
+    },
+    "exercise_index": {
+      "type": "integer"
+    },
+    "set_index": {
+      "type": "integer"
+    },
+    "pr_kind": {
+      "type": "string",
+      "enum": [
+        "weight",
+        "reps_at_weight",
+        "rep_bucket"
+      ]
+    },
+    "rep_bucket": {
+      "type": "string",
+      "enum": [
+        "1-3",
+        "4-6",
+        "7-10",
+        "11-15",
+        "16+"
+      ]
+    },
+    "weight_kg": {
+      "type": "number"
+    },
+    "reps": {
+      "type": "integer"
+    },
+    "e1rm_kg": {
+      "type": "number"
+    },
+    "previous_value": {
+      "type": "number"
+    },
+    "previous_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "achieved_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "is_main_lift": {
+      "type": "boolean"
+    },
+    "full_screen_shown": {
+      "type": "boolean"
+    },
+    "confirmed_by_user": {
+      "type": "boolean"
+    },
+    "voided": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description"
+    }
+  },
+  "required": [
+    "user_id"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

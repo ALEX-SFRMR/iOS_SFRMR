@@ -1,0 +1,95 @@
+{
+  "name": "MilestoneEvent",
+  "type": "object",
+  "description": "A milestone the user reached (recognition model).",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity"
+    },
+    "kind": {
+      "type": "string",
+      "description": "first_workout, first_standard_week, streak_4, lifetime_100, block_complete, main_lift_weight_pr, back_on_track, ..."
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "noticeable",
+        "celebratory"
+      ]
+    },
+    "value": {
+      "type": "number"
+    },
+    "achieved_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "shown_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "shared_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description"
+    }
+  },
+  "required": [
+    "user_id"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
